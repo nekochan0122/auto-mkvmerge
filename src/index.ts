@@ -63,7 +63,7 @@ function main() {
     videos = filesFilter(files, config.videoExt)
     subtitles = filesFilter(files, config.subtitleExt)
 
-    // 如果影片或字幕不存在ˋ
+    // 如果影片或字幕不存在
     if (!videos.length || !subtitles.length) return console.log('影片或字幕不存在。')
 
     // 檢查影片與字幕長度
