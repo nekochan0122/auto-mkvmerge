@@ -57,7 +57,8 @@ function main() {
     } catch (error) {
       // 處理 error
       console.error(error)
-      return console.log('請檢察目標路徑格式是否正確。')
+      console.log(`請檢查 ${basePath} 路徑是否存在。`)
+      return
     }
 
     // 獲取影片與字幕檔名
@@ -68,18 +69,24 @@ function main() {
     if (!videos.length || !subtitles.length) return console.log('影片或字幕不存在。')
 
     // 檢查影片與字幕長度
-    if (videos.length !== subtitles.length) return console.log('請檢察影片與字幕數量是否完全一致。')
+    if (videos.length !== subtitles.length) return console.log('請檢查影片與字幕數量是否完全一致。')
 
     // 檢查檔名(以影片檔名匹配字幕)
     video: for (let video of videos) {
       for (let subtitle of subtitles) {
         if (subtitle.replace(config.subtitleExt, '') === video.replace(config.videoExt, '')) continue video
       }
-      return console.log(`請檢察 ${video} 與字幕檔名是否完全一致。`)
+      return console.log(`請檢查 ${video} 與字幕檔名是否完全一致。`)
     }
 
     // 獲取所有字體陣列
-    fonts = readdirSync(resolve(basePath, config.fonts))
+    try {
+      fonts = readdirSync(resolve(basePath, config.fonts))
+    } catch (error) {
+      console.log(error)
+      console.log(`請檢查 ${config.fonts} 資料夾是否存在。`)
+      return
+    }
 
     // 根據字體陣列處理字體參數
     for (let font of fonts) {
