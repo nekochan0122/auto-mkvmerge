@@ -7,6 +7,7 @@ const path_1 = require("path");
 // 設定區
 const config = {
     videoExt: '.mkv',
+    videoOutputExt: '.mkv',
     subtitleExt: '.ass',
     subLang: 'zh-TW',
     fonts: 'Fonts/',
@@ -93,9 +94,9 @@ function main() {
         for (let video of videos) {
             const videoPath = path_1.resolve(basePath, video);
             const subtitlePath = path_1.resolve(basePath, video.replace(config.videoExt, config.subtitleExt));
-            const outputPath = path_1.resolve(basePath, config.output, video);
+            const outputPath = path_1.resolve(basePath, config.output, video.replace(config.videoExt, config.videoOutputExt));
             child_process_1.execSync(`mkvmerge -o "${outputPath}" "${videoPath}" --language 0:${config.subLang} "${subtitlePath}" ${fontResult}`);
-            console.log('已完成 :', video);
+            console.log('已完成 :', video.replace(config.videoExt, config.videoOutputExt));
         }
         // 重置目標路徑
         basePath = null;

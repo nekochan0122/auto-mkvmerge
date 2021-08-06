@@ -6,6 +6,7 @@ import { resolve } from 'path'
 // 設定區
 const config = {
   videoExt: '.mkv', // 影片副檔名
+  videoOutputExt: '.mkv', // 輸出影片副檔名
   subtitleExt: '.ass', // 字幕副檔名
   subLang: 'zh-TW', // 字幕語言
   fonts: 'Fonts/', // 字體資料夾位置（相對）
@@ -106,12 +107,12 @@ function main() {
     for (let video of videos) {
       const videoPath = resolve(basePath, video)
       const subtitlePath = resolve(basePath, video.replace(config.videoExt, config.subtitleExt))
-      const outputPath = resolve(basePath, config.output, video)
+      const outputPath = resolve(basePath, config.output, video.replace(config.videoExt, config.videoOutputExt))
 
       execSync(
         `mkvmerge -o "${outputPath}" "${videoPath}" --language 0:${config.subLang} "${subtitlePath}" ${fontResult}`
       )
-      console.log('已完成 :', video)
+      console.log('已完成 :', video.replace(config.videoExt, config.videoOutputExt))
     }
 
     // 重置目標路徑
