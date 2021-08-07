@@ -43,54 +43,61 @@ function inputPath() {
 // 核心函式
 function main() {
   return new Promise(res => {
-    if (basePath === null) return // 防止 basePath 為 null
+    if (basePath === null) return res(null) // 防止 basePath 為 null
 
+    // 讀取資料夾裡的檔案
     let files: string[] // 檔案
-    let videos: string[] // 影片
-    let subtitles: string[] // 字幕
-    let fonts: string[] // 字體
-    let fontResult = ' ' // 字體指令參數
 
-    // 讀取資料夾
     try {
       files = readdirSync(basePath)
     } catch (error) {
-      // 處理 error
-      console.error(error)
+      console.log(error)
       console.log(`請檢查 ${basePath} 路徑是否存在。`)
-      return
+      return res(null)
     }
 
     // 獲取影片與字幕檔名
-    videos = filesFilter(files, config.videoExt)
-    subtitles = filesFilter(files, config.subtitleExt)
+    const videos: string[] = filesFilter(files, config.videoExt)
+    const subtitles: string[] = filesFilter(files, config.subtitleExt)
 
     // 如果影片或字幕不存在
-    if (!videos.length || !subtitles.length) return console.log('影片或字幕不存在。')
+    if (!videos.length || !subtitles.length) {
+      console.log('影片或字幕不存在。')
+      return res(null)
+    }
 
     // 檢查影片與字幕長度
-    if (videos.length !== subtitles.length) return console.log('請檢查影片與字幕數量是否完全一致。')
+    if (videos.length !== subtitles.length) {
+      console.log('請檢查影片與字幕數量是否完全一致。')
+      return res(null)
+    }
 
     // 檢查檔名(以影片檔名匹配字幕)
     video: for (let video of videos) {
       for (let subtitle of subtitles) {
         if (subtitle.replace(config.subtitleExt, '') === video.replace(config.videoExt, '')) continue video
       }
-      return console.log(`請檢查 ${video} 與字幕檔名是否完全一致。`)
+
+      console.log(`請檢查 ${video} 與字幕檔名是否完全一致。`)
+      return res(null)
     }
 
     // 獲取所有字體陣列
+    let fonts: string[] // 字體
+
     try {
       fonts = readdirSync(resolve(basePath, config.fonts))
     } catch (error) {
       console.log(error)
       console.log(`請檢查 ${config.fonts} 資料夾是否存在。`)
-      return
+      return res(null)
     }
 
     // 根據字體陣列處理字體參數
+    let fontResult = ' ' // 字體指令參數
+
     for (let font of fonts) {
-      const ext = font.split('.').pop()
+      const ext = font.split('.').pop()?.toLowerCase()
 
       // 處理 mime-type
       switch (ext) {
@@ -114,12 +121,20 @@ function main() {
     for (let video of videos) {
       const videoPath = resolve(basePath, video)
       const subtitlePath = resolve(basePath, video.replace(config.videoExt, config.subtitleExt))
-      const outputPath = resolve(basePath, config.output, video.replace(config.videoExt, config.videoOutputExt))
+      const outputVideoName = video.replace(config.videoExt, config.videoOutputExt)
+      const outputPath = resolve(basePath, config.output, outputVideoName)
 
-      execSync(
-        `mkvmerge -o "${outputPath}" "${videoPath}" --language 0:${config.subLang} "${subtitlePath}" ${fontResult}`
-      )
-      console.log('已完成 :', video.replace(config.videoExt, config.videoOutputExt))
+      try {
+        execSync(
+          `mkvmerge -o "${outputPath}" "${videoPath}" --language 0:${config.subLang} "${subtitlePath}" ${fontResult}`
+        )
+      } catch (error) {
+        console.log(error)
+        console.log('發生錯誤：', outputVideoName)
+        continue
+      }
+
+      console.log('已完成 :', outputVideoName)
     }
 
     // 重置目標路徑
