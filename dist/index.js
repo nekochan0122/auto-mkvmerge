@@ -6,7 +6,7 @@ const child_process_1 = require("child_process");
 const path_1 = require("path");
 // 設定區
 const config = {
-    videoExt: '.mkv',
+    videoExtArray: ['.mkv', '.mp4'],
     videoOutputExt: '.mkv',
     subtitleExt: '.ass',
     subLang: 'zh-TW',
@@ -50,11 +50,23 @@ function main() {
             console.log(`請檢查 ${basePath} 路徑是否存在。`);
             return res(null);
         }
-        // 獲取影片與字幕檔名
-        const videos = filesFilter(files, config.videoExt);
+        // 獲取 影片檔名 與 影片副檔名 和 字幕檔名
         const subtitles = filesFilter(files, config.subtitleExt);
+        let videos = null;
+        let videoExt = null;
+        for (const fVideoExt of config.videoExtArray) {
+            videos = filesFilter(files, fVideoExt);
+            // 如果當前的副檔名找到檔案
+            if (videos.length) {
+                videoExt = fVideoExt;
+                break;
+            }
+            else {
+                videos = null;
+            }
+        }
         // 如果影片或字幕不存在
-        if (!videos.length || !subtitles.length) {
+        if (videoExt === null || videos === null || !subtitles.length) {
             console.log('影片或字幕不存在。');
             return res(null);
         }
@@ -64,9 +76,9 @@ function main() {
             return res(null);
         }
         // 檢查檔名(以影片檔名匹配字幕)
-        video: for (let video of videos) {
-            for (let subtitle of subtitles) {
-                if (subtitle.replace(config.subtitleExt, '') === video.replace(config.videoExt, ''))
+        video: for (const video of videos) {
+            for (const subtitle of subtitles) {
+                if (subtitle.replace(config.subtitleExt, '') === video.replace(videoExt, ''))
                     continue video;
             }
             console.log(`請檢查 ${video} 與字幕檔名是否完全一致。`);
@@ -103,8 +115,8 @@ function main() {
         // 開始執行 mkvmerge
         for (let video of videos) {
             const videoPath = path_1.resolve(basePath, video);
-            const subtitlePath = path_1.resolve(basePath, video.replace(config.videoExt, config.subtitleExt));
-            const outputVideoName = video.replace(config.videoExt, config.videoOutputExt);
+            const subtitlePath = path_1.resolve(basePath, video.replace(videoExt, config.subtitleExt));
+            const outputVideoName = video.replace(videoExt, config.videoOutputExt);
             const outputPath = path_1.resolve(basePath, config.output, outputVideoName);
             try {
                 child_process_1.execSync(`mkvmerge -o "${outputPath}" "${videoPath}" --language 0:${config.subLang} "${subtitlePath}" ${fontResult}`);
