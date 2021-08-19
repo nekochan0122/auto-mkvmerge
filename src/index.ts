@@ -22,27 +22,45 @@ const rl = createInterface({
   output: process.stdout,
 })
 
-// loopAction
-async function loopAction() {
+/**
+ * @function loopAction - 循環所有操作
+ */
+const loopAction = async () => {
   await inputPath()
   await main()
 
   loopAction()
 }
 
-// 提示輸入
-function inputPath() {
-  return new Promise(res => {
+/**
+ * @function inputPath - 輸入提示
+ * @returns { Promise<unknown> }
+ */
+const inputPath = () =>
+  new Promise(res => {
     rl.question('請輸入目標路徑 (不帶引號) :\n', path => {
       basePath = path
+      execSync('cls')
       res(null)
     })
   })
+
+/**
+ * @function filesFilter - 檔案過濾
+ * @param files - 檔案
+ * @param ext - 副檔名
+ * @returns - 從檔案過濾副檔名後的陣列
+ */
+const filesFilter = (files: string[], ext: string): string[] => {
+  return files.filter(file => file.endsWith(ext))
 }
 
-// 核心函式
-function main() {
-  return new Promise(res => {
+/**
+ * @function main - 核心函式
+ * @returns { Promise<unknown> }
+ */
+const main = () =>
+  new Promise(res => {
     if (basePath === null) return res(null) // 防止 basePath 為 null
 
     // 讀取資料夾裡的檔案
@@ -155,10 +173,6 @@ function main() {
 
     res(null)
   })
-}
 
-function filesFilter(files: string[], ext: string) {
-  return files.filter(file => file.endsWith(ext))
-}
-
+// GO GO GO GO GO
 loopAction()
