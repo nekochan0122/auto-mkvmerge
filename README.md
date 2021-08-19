@@ -39,6 +39,10 @@
 
 4. 可以給我 Star 了吧 :3
 
+## 影片教學
+
+https://youtu.be/O-HsLcSty2E
+
 ## License
 
 [MIT](https://github.com/NekoChanTaiwan/mkvmerge-font-subtitle/blob/main/LICENSE)
