@@ -22,6 +22,8 @@ const rl = createInterface({
   output: process.stdout,
 })
 
+process.title = 'mkvmerge-font-subtitle - By NekoChan#2851 - Nyahello ~'
+
 /**
  * @function loopAction - 循環所有操作
  */

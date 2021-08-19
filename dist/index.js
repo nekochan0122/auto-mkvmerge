@@ -20,6 +20,7 @@ const rl = readline_1.createInterface({
     input: process.stdin,
     output: process.stdout,
 });
+process.title = 'mkvmerge-font-subtitle - By NekoChan#2851 - Nyahello ~';
 /**
  * @function loopAction - 循環所有操作
  */
