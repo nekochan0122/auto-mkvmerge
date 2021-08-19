@@ -100,7 +100,7 @@ const main = () => new Promise(res => {
         return res(null);
     }
     // 獲取所有字體陣列
-    let fonts; // 字體
+    let fonts = null; // 字體
     try {
         fonts = fs_1.readdirSync(path_1.resolve(basePath, config.fonts));
     }
@@ -111,21 +111,23 @@ const main = () => new Promise(res => {
     }
     // 根據字體陣列處理字體參數
     let fontResult = ' '; // 字體指令參數
-    for (let font of fonts) {
-        const ext = font.split('.').pop()?.toLowerCase();
-        // 處理 mime-type
-        switch (ext) {
-            case 'otf':
-                fontResult += `--attachment-mime-type font/otf`;
-                break;
-            case 'ttf':
-                fontResult += `--attachment-mime-type font/ttf`;
-                break;
-            case 'ttc':
-                fontResult += `--attachment-mime-type font/collection`;
-                break;
+    if (fonts !== null) {
+        for (let font of fonts) {
+            const ext = font.toLowerCase().split('.').pop();
+            // 處理 mime-type
+            switch (ext) {
+                case 'otf':
+                    fontResult += `--attachment-mime-type font/otf`;
+                    break;
+                case 'ttf':
+                    fontResult += `--attachment-mime-type font/ttf`;
+                    break;
+                case 'ttc':
+                    fontResult += `--attachment-mime-type font/collection`;
+                    break;
+            }
+            fontResult += ` --attach-file "${path_1.resolve(basePath, config.fonts)}\\${font}" `;
         }
-        fontResult += ` --attach-file "${path_1.resolve(basePath, config.fonts)}\\${font}" `;
     }
     // 開始執行 mkvmerge
     for (let video of videos) {

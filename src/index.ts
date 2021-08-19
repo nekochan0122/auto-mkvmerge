@@ -114,7 +114,7 @@ const main = () =>
     }
 
     // 獲取所有字體陣列
-    let fonts: string[] // 字體
+    let fonts: string[] | null = null // 字體
 
     try {
       fonts = readdirSync(resolve(basePath, config.fonts))
@@ -127,25 +127,27 @@ const main = () =>
     // 根據字體陣列處理字體參數
     let fontResult = ' ' // 字體指令參數
 
-    for (let font of fonts) {
-      const ext = font.split('.').pop()?.toLowerCase()
+    if (fonts !== null) {
+      for (let font of fonts) {
+        const ext = font.toLowerCase().split('.').pop()
 
-      // 處理 mime-type
-      switch (ext) {
-        case 'otf':
-          fontResult += `--attachment-mime-type font/otf`
-          break
+        // 處理 mime-type
+        switch (ext) {
+          case 'otf':
+            fontResult += `--attachment-mime-type font/otf`
+            break
 
-        case 'ttf':
-          fontResult += `--attachment-mime-type font/ttf`
-          break
+          case 'ttf':
+            fontResult += `--attachment-mime-type font/ttf`
+            break
 
-        case 'ttc':
-          fontResult += `--attachment-mime-type font/collection`
-          break
+          case 'ttc':
+            fontResult += `--attachment-mime-type font/collection`
+            break
+        }
+
+        fontResult += ` --attach-file "${resolve(basePath, config.fonts)}\\${font}" `
       }
-
-      fontResult += ` --attach-file "${resolve(basePath, config.fonts)}\\${font}" `
     }
 
     // 開始執行 mkvmerge
