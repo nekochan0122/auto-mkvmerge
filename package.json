@@ -1,6 +1,6 @@
 {
   "name": "mkvmerge-font-subtitle",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "./dist/index.js",
   "author": "NekoChanTaiwan <aaron74327@gmail.com>",
   "license": "MIT",
