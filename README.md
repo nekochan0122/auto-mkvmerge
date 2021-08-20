@@ -1,11 +1,11 @@
-# mkvmerge-font-subtitle
+# auto-mkvmerge
 
 > 是的，沒錯，我非常不會取名。
 
 ## 如何下載？
 
 1. 在 [Releases](https://github.com/NekoChanTaiwan/mkvmerge-font-subtitle/releases) 下載最新建置版本。
-2. 解壓縮後開啟 `mkvmerge-font-subtitle_xXX.exe`
+2. 解壓縮後開啟 `auto-mkvmerge_xXX_vX.X.X.exe`
 
 > 如果你操作系統下的環境變量有配置 mkvmerge.exe，你可以將解壓縮後包含的 mkvmerge.exe 刪除。
 
@@ -42,6 +42,14 @@
 ## 影片教學
 
 https://youtu.be/O-HsLcSty2E
+
+## 版本更新
+
+### 1.0.1
+
+- 項目模塊化
+- 添加版本提示
+- 添加 mka 音軌封裝 ( 如果 mka 與 mkv 同名
 
 ## License
 
