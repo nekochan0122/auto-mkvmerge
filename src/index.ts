@@ -1,5 +1,7 @@
-process.title = 'mkvmerge-font-subtitle By NekoChan#2851 - Nyahello ~'
-
 import { loopAction } from './loopAction'
+
+const { version } = require('../package.json')
+
+process.title = `mkvmerge-font-subtitle v${version} By NekoChan#2851 - Nyahello ~`
 
 loopAction()

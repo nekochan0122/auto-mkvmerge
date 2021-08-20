@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "start": "nodemon ./dist/index.js",
-    "build": "nexe -o build/mkvmerge-font-subtitle_x64.exe -t windows-x64-14.15.3 && nexe -o build/mkvmerge-font-subtitle_x86.exe -t windows-x86-14.9.0",
+    "build": "nexe -o build/mkvmerge-font-subtitle_x64_v%npm_package_version%.exe -t windows-x64-14.15.3 && nexe -o build/mkvmerge-font-subtitle_x86_v%npm_package_version%.exe -t windows-x86-14.9.0",
     "tscw": "tsc --watch",
     "prettier": "prettier --write ."
   },
