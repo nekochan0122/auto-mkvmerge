@@ -51,6 +51,8 @@ https://youtu.be/O-HsLcSty2E
 - 添加版本提示
 - 添加 mka 音軌封裝 ( 如果 mka 與 mkv 同名
 
+備註：該功能並不是每個 mkv 都必須要有 mka ，是如果有的 mkv 有對應的 mka 就會自動封裝。
+
 ## License
 
 [MIT](https://github.com/NekoChanTaiwan/mkvmerge-font-subtitle/blob/main/LICENSE)
