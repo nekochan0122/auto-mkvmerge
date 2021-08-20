@@ -5,6 +5,7 @@ const config_1 = require("./config");
 const neko_1 = require("./neko");
 const actions_1 = require("./actions");
 const utils_1 = require("./utils");
+// 如果 fonts.length 是空的就開始尋找字體並複製到該資料夾下
 /**
  * @function loopAction 循環所有操作
  */
@@ -20,6 +21,8 @@ const loopAction = async () => {
     }
     // 從 所有檔案 過濾出字幕
     neko.subtitlesName = utils_1.filesFilter(neko.filesName, config_1.config.subtitleExt);
+    // 從 所有檔案 過濾出音軌
+    neko.audiosName = utils_1.filesFilter(neko.filesName, config_1.config.audioExt);
     // 從 所有檔案 過濾出影片
     /**
      *  !　這裡不知道為什麼不能解構賦值
@@ -50,7 +53,7 @@ const loopAction = async () => {
         neko.fontsCmd = actions_1.getFontsCmd(neko.basePath, config_1.config.fontsPath, neko.fonts);
     }
     else {
-        console.log('未找到任何字體，已略過封裝字體。');
+        console.log('未找到任何字體，略過封裝字體。');
     }
     actions_1.runMkvmerge(neko);
     exports.loopAction();

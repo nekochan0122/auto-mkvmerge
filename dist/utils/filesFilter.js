@@ -7,7 +7,7 @@ exports.filesFilter = void 0;
  * @param ext 副檔名
  * @returns 從檔案過濾副檔名後的陣列
  */
-const filesFilter = (files, ext) => {
-    return files.filter(file => file.endsWith(ext));
+const filesFilter = (filesName, ext) => {
+    return filesName.filter(file => file.endsWith(ext));
 };
 exports.filesFilter = filesFilter;

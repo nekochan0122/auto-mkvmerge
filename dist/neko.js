@@ -7,6 +7,7 @@ class Neko {
     subtitlesName; // 字幕檔名
     videosName; // 影片檔名
     videoExt; // 影片副檔名
+    audiosName; // 音軌檔名
     fonts; // 字體
     fontsCmd; // 字體指令參數
 }

@@ -3,6 +3,8 @@ import { Neko } from './neko'
 import { input, loadFiles, checkSameName, getFontsCmd, runMkvmerge } from './actions'
 import { filesFilter, videosFilter } from './utils'
 
+// 如果 fonts.length 是空的就開始尋找字體並複製到該資料夾下
+
 /**
  * @function loopAction 循環所有操作
  */
@@ -21,6 +23,9 @@ export const loopAction = async (): Promise<void> => {
 
   // 從 所有檔案 過濾出字幕
   neko.subtitlesName = filesFilter(neko.filesName, config.subtitleExt)
+
+  // 從 所有檔案 過濾出音軌
+  neko.audiosName = filesFilter(neko.filesName, config.audioExt)
 
   // 從 所有檔案 過濾出影片
   /**
@@ -56,7 +61,7 @@ export const loopAction = async (): Promise<void> => {
   if (neko.fonts.length) {
     neko.fontsCmd = getFontsCmd(neko.basePath, config.fontsPath, neko.fonts)
   } else {
-    console.log('未找到任何字體，已略過封裝字體。')
+    console.log('未找到任何字體，略過封裝字體。')
   }
 
   runMkvmerge(neko)

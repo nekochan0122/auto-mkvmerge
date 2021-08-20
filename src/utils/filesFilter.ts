@@ -4,6 +4,6 @@
  * @param ext 副檔名
  * @returns 從檔案過濾副檔名後的陣列
  */
-export const filesFilter = (files: string[], ext: string): string[] => {
-  return files.filter(file => file.endsWith(ext))
+export const filesFilter = (filesName: string[], ext: string): string[] => {
+  return filesName.filter(file => file.endsWith(ext))
 }
