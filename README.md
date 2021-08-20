@@ -4,8 +4,7 @@
 
 ## 如何下載？
 
-1. 在 [Releases](https://github.com/NekoChanTaiwan/mkvmerge-font-subtitle/releases) 下載最新建置版本。
-2. 解壓縮後開啟 `auto-mkvmerge_xXX_vX.X.X.exe`
+在 [Releases](https://github.com/NekoChanTaiwan/mkvmerge-font-subtitle/releases) 下載最新建置版本。
 
 > 如果你操作系統下的環境變量有配置 mkvmerge.exe，你可以將解壓縮後包含的 mkvmerge.exe 刪除。
 
